@@ -1,16 +1,23 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { z } from 'zod';
 import { parse } from 'yaml';
+import { z } from 'zod';
 
 // Empty YAML values become null; whitespace-only strings hide optional content.
-const optionalText = z.string().trim().nullish().transform((value) => value || undefined);
+const optionalText = z
+  .string()
+  .trim()
+  .nullish()
+  .transform((value) => value || undefined);
 
 const schema = z.object({
-  meta: z.preprocess((value) => value ?? {}, z.object({
-    title: optionalText,
-    description: optionalText,
-  })),
+  meta: z.preprocess(
+    (value) => value ?? {},
+    z.object({
+      title: optionalText,
+      description: optionalText,
+    }),
+  ),
   profile: z.object({
     avatar: optionalText,
     name: optionalText,
@@ -19,11 +26,14 @@ const schema = z.object({
     bilibili: optionalText,
     discord: optionalText,
   }),
-  footer: z.preprocess((value) => value ?? {}, z.object({
-    copyright: optionalText,
-    icp: optionalText,
-    police: optionalText,
-  })),
+  footer: z.preprocess(
+    (value) => value ?? {},
+    z.object({
+      copyright: optionalText,
+      icp: optionalText,
+      police: optionalText,
+    }),
+  ),
 });
 
 export type Config = z.infer<typeof schema>;

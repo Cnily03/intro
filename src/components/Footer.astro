@@ -28,30 +28,42 @@ const policeUrl = policeCode
   : 'https://www.beian.gov.cn/';
 ---
 
-{
-  showFooter && (
-    <footer class="site-footer relative z-10 flex min-h-20 flex-wrap items-center justify-center text-center leading-normal text-white/65">
-      {copyright && <span>{copyright}</span>}
+{showFooter && (
+  <footer class="site-footer relative z-10 flex min-h-20 flex-wrap items-center justify-center text-center leading-normal text-white/65">
+    {copyright && <span>{copyright}</span>}
 
-      {showFilings && (
-        <nav class="filings flex flex-wrap justify-center" aria-label="Chinese website registration information">
-          {footer.icp && (
-            <a class="filing-link hover-fill inline-block whitespace-nowrap text-white/70 no-underline" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
-              <span>{footer.icp}</span>
-              <span class="hover-fill__reveal" aria-hidden="true">{footer.icp}</span>
-            </a>
-          )}
-          {footer.police && (
-            <a class="filing-link hover-fill inline-block whitespace-nowrap text-white/70 no-underline" href={policeUrl} target="_blank" rel="noopener noreferrer">
-              <span>{footer.police}</span>
-              <span class="hover-fill__reveal" aria-hidden="true">{footer.police}</span>
-            </a>
-          )}
-        </nav>
-      )}
-    </footer>
-  )
-}
+    {showFilings && (
+      <nav class="filings flex flex-wrap justify-center" aria-label="Chinese website registration information">
+        {footer.icp && (
+          <a
+            class="filing-link hover-fill inline-block whitespace-nowrap text-white/70 no-underline"
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>{footer.icp}</span>
+            <span class="hover-fill__reveal" aria-hidden="true">
+              {footer.icp}
+            </span>
+          </a>
+        )}
+        {footer.police && (
+          <a
+            class="filing-link hover-fill inline-block whitespace-nowrap text-white/70 no-underline"
+            href={policeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>{footer.police}</span>
+            <span class="hover-fill__reveal" aria-hidden="true">
+              {footer.police}
+            </span>
+          </a>
+        )}
+      </nav>
+    )}
+  </footer>
+)}
 
 <style lang="scss">
   .site-footer {

@@ -12,7 +12,5 @@
     "source.organizeImports.biome": "explicit"
   },
 
-  "github.copilot.chat.commitMessageGeneration.instructions": [
-    { "file": ".agents/commit-message-instructions.md" }
-  ]
+  "github.copilot.chat.commitMessageGeneration.instructions": [{ "file": ".agents/commit-message-instructions.md" }]
 }

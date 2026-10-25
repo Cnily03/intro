@@ -35,18 +35,38 @@ const socialLinks = [
 
 <div class="identity flex w-full flex-col items-center text-center">
   {profile.avatar && (
-    <img class="hero-avatar reveal reveal--avatar size-32 rounded-full border-2 border-white/80 object-cover" src={profile.avatar} alt={profile.name ? `${profile.name}'s avatar` : 'Profile avatar'} width="128" height="128" decoding="async" fetchpriority="high" />
+    <img
+      class="hero-avatar reveal reveal--avatar size-32 rounded-full border-2 border-white/80 object-cover"
+      src={profile.avatar}
+      alt={profile.name ? `${profile.name}'s avatar` : 'Profile avatar'}
+      width="128"
+      height="128"
+      decoding="async"
+      fetchpriority="high"
+    />
   )}
 
-  {profile.name && <h1 class="hero-name reveal reveal--name m-0 max-w-full font-serif font-medium text-balance" id="hero-name">{profile.name}</h1>}
+  {profile.name && (
+    <h1 class="hero-name reveal reveal--name m-0 max-w-full font-serif font-medium text-balance" id="hero-name">
+      {profile.name}
+    </h1>
+  )}
 
   {socialLinks.some((link) => link.href) && (
     <nav class="hero-social-links reveal reveal--social" aria-label="Social profiles">
-      {socialLinks.filter((link) => link.href).map((link) => (
-        <a class="hero-social-link" href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
-          <Icon name={link.icon} size={28} aria-hidden="true" />
-        </a>
-      ))}
+      {socialLinks
+        .filter((link) => link.href)
+        .map((link) => (
+          <a
+            class="hero-social-link"
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={link.label}
+          >
+            <Icon name={link.icon} size={28} aria-hidden="true" />
+          </a>
+        ))}
     </nav>
   )}
 </div>

@@ -1,8 +1,8 @@
 ---
 import { getImage } from 'astro:assets';
+import backgroundSource from '@/assets/background.png';
 import Footer from '@/components/Footer.astro';
 import Hero from '@/components/Hero.astro';
-import backgroundSource from '@/assets/background.png';
 import config from '@/config';
 import '@/styles/tailwind.css';
 import '@/styles/global.scss';
@@ -21,7 +21,10 @@ const background = await getImage({ src: backgroundSource, width: 2560, format: 
     <!-- Font: MiSans -->
     <link rel="preconnect" href="https://cdn-font.hyperos.mi.com" />
     <link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin />
-    <link rel="stylesheet" href="https://cdn-font.hyperos.mi.com/font/css?family=MiSans:400,500:Chinese_Simplify,Latin&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://cdn-font.hyperos.mi.com/font/css?family=MiSans:400,500:Chinese_Simplify,Latin&display=swap"
+    />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href={background.src} as="image" type="image/webp" />
@@ -29,7 +32,11 @@ const background = await getImage({ src: backgroundSource, width: 2560, format: 
   </head>
   <body>
     <div class="page-shell relative isolate flex flex-col" style={`--background-image: url('${background.src}')`}>
-      <main class="hero-area relative z-10 grid min-h-0 flex-1 place-items-center" aria-labelledby={config.profile.name ? 'hero-name' : undefined} aria-label={config.profile.name ? undefined : (config.meta.title ?? 'Personal homepage')}>
+      <main
+        class="hero-area relative z-10 grid min-h-0 flex-1 place-items-center"
+        aria-labelledby={config.profile.name ? 'hero-name' : undefined}
+        aria-label={config.profile.name ? undefined : (config.meta.title ?? 'Personal homepage')}
+      >
         <Hero profile={config.profile} />
       </main>
 
