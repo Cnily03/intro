@@ -1,15 +1,18 @@
 {
   "name": "cnily03-intro",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "biome migrate --write",
+    "format": "biome check --write",
+    "lint": "biome lint",
+    "check": "tsc --noEmit",
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "check": "tsc --noEmit"
+    "preview": "astro preview"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.6.2",
     "@fontsource/noto-serif": "^5.3.0",
     "@iconify-json/fa6-brands": "^1.2.6",
     "@tailwindcss/vite": "^4.3.3",
