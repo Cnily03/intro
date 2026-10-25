@@ -1,0 +1,122 @@
+---
+import { Icon } from 'astro-icon/components';
+import '@fontsource/noto-serif/latin-500.css';
+import type { Config } from '@/config';
+
+interface Props {
+  profile: Config['profile'];
+}
+
+const { profile } = Astro.props;
+
+const socialLinks = [
+  {
+    href: profile.github,
+    icon: 'fa6-brands:github',
+    label: profile.name ? `Visit ${profile.name}'s GitHub profile` : 'Visit GitHub profile',
+  },
+  {
+    href: profile.bilibili,
+    icon: 'fa6-brands:bilibili',
+    label: profile.name ? `Visit ${profile.name}'s Bilibili profile` : 'Visit Bilibili profile',
+  },
+  {
+    href: profile.discord,
+    icon: 'fa6-brands:discord',
+    label: profile.name ? `Visit ${profile.name}'s Discord profile` : 'Visit Discord profile',
+  },
+  {
+    href: profile.orcid,
+    icon: 'fa6-brands:orcid',
+    label: profile.name ? `Visit ${profile.name}'s ORCID record` : 'Visit ORCID record',
+  },
+];
+---
+
+<div class="identity flex w-full flex-col items-center text-center">
+  {profile.avatar && (
+    <img class="hero-avatar reveal reveal--avatar size-32 rounded-full border-2 border-white/80 object-cover" src={profile.avatar} alt={profile.name ? `${profile.name}'s avatar` : 'Profile avatar'} width="128" height="128" decoding="async" fetchpriority="high" />
+  )}
+
+  {profile.name && <h1 class="hero-name reveal reveal--name m-0 max-w-full font-serif font-medium text-balance" id="hero-name">{profile.name}</h1>}
+
+  {socialLinks.some((link) => link.href) && (
+    <nav class="hero-social-links reveal reveal--social" aria-label="Social profiles">
+      {socialLinks.filter((link) => link.href).map((link) => (
+        <a class="hero-social-link" href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+          <Icon name={link.icon} size={28} aria-hidden="true" />
+        </a>
+      ))}
+    </nav>
+  )}
+</div>
+
+<style lang="scss">
+  .identity {
+    max-width: 34rem;
+    margin-top: -1.5rem;
+    gap: clamp(1.15rem, 2.5vw, 1.65rem);
+  }
+
+  .hero-avatar {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1), 0 18px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero-name {
+    font-size: clamp(2rem, 1.2rem + 2.2vw, 3.25rem);
+    font-variant: small-caps;
+    letter-spacing: 0.055em;
+    line-height: 1.12;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+    overflow-wrap: anywhere;
+  }
+
+  .hero-social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .hero-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    text-decoration: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-text-hover);
+      outline-offset: 4px;
+    }
+  }
+
+  /* The three profile rows appear in order after the background transition. */
+  .reveal {
+    animation: reveal-profile var(--profile-reveal-duration) cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+    &--avatar { animation-delay: var(--avatar-reveal-delay); }
+    &--name { animation-delay: var(--name-reveal-delay); }
+    &--social { animation-delay: var(--social-reveal-delay); }
+  }
+
+  @keyframes reveal-profile {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .identity { margin-top: 0; gap: 1.25rem; }
+    .hero-avatar { width: 6.75rem; height: 6.75rem; }
+    .hero-name { font-size: clamp(2rem, 8vw, 2.6rem); letter-spacing: 0.035em; }
+  }
+
+  @media (max-height: 600px) {
+    .identity { margin-top: 0; gap: 0.9rem; }
+    .hero-avatar { width: 5.75rem; height: 5.75rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; }
+  }
+</style>

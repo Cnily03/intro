@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+
+@theme static {
+  --color-canvas: #11151b;
+  --color-text: #d4d7dd;
+  --color-text-hover: #fff;
+  --font-emoji: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Twemoji Mozilla', 'Segoe UI Symbol', emoji;
+  --font-sans: MiSans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', var(--font-emoji), sans-serif;
+  --font-serif: 'Noto Serif', ui-serif, Georgia, Cambria, 'Times New Roman', Times, var(--font-emoji), serif;
+  --font-mono: 'Cascadia Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, var(--font-emoji), monospace;
+}
+
+@layer base {
+  a {
+    color: inherit;
+    transition: color 180ms ease;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--color-text-hover);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a { transition: none; }
+  }
+}
+
+/* A reusable upward fill for links with a duplicate text layer. */
+@utility hover-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  &::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--hover-fill-background, var(--color-text-hover));
+    content: '';
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 280ms ease;
+  }
+
+  & .hover-fill__reveal {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--hover-fill-color, var(--color-canvas));
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 280ms ease;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  &:hover .hover-fill__reveal,
+  &:focus-visible .hover-fill__reveal {
+    clip-path: inset(0 0 0 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::before,
+    & .hover-fill__reveal {
+      transition: none;
+    }
+  }
+}

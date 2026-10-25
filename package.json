@@ -1,0 +1,26 @@
+{
+  "name": "cnily03-intro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@fontsource/noto-serif": "^5.3.0",
+    "@iconify-json/fa6-brands": "^1.2.6",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "astro": "^7.4.2",
+    "astro-icon": "^1.2.0",
+    "sass": "^1.106.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "packageManager": "pnpm@12.14.0"
+}

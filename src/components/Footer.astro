@@ -1,0 +1,94 @@
+---
+import type { Config } from '@/config';
+import { render } from '@/utils/render';
+
+interface Props {
+  footer: Config['footer'];
+  name?: string;
+}
+
+const { footer, name } = Astro.props;
+
+// This flag is read while Astro builds the static page.
+const hideCnBeian = process.env.HIDE_CN_BEIAN === '1';
+const showFilings = !hideCnBeian && Boolean(footer.icp || footer.police);
+
+const copyright = footer.copyright
+  ? render(footer.copyright, {
+      year: new Date().getFullYear(),
+      name: name ?? '',
+    }).trim()
+  : undefined;
+
+const showFooter = Boolean(copyright || showFilings);
+
+const policeCode = footer.police?.match(/\d{14}/)?.[0];
+const policeUrl = policeCode
+  ? `https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=${policeCode}`
+  : 'https://www.beian.gov.cn/';
+---
+
+{
+  showFooter && (
+    <footer class="site-footer relative z-10 flex min-h-20 flex-wrap items-center justify-center text-center leading-normal text-white/65">
+      {copyright && <span>{copyright}</span>}
+
+      {showFilings && (
+        <nav class="filings flex flex-wrap justify-center" aria-label="Chinese website registration information">
+          {footer.icp && (
+            <a class="filing-link hover-fill inline-block whitespace-nowrap text-white/70 no-underline" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+              <span>{footer.icp}</span>
+              <span class="hover-fill__reveal" aria-hidden="true">{footer.icp}</span>
+            </a>
+          )}
+          {footer.police && (
+            <a class="filing-link hover-fill inline-block whitespace-nowrap text-white/70 no-underline" href={policeUrl} target="_blank" rel="noopener noreferrer">
+              <span>{footer.police}</span>
+              <span class="hover-fill__reveal" aria-hidden="true">{footer.police}</span>
+            </a>
+          )}
+        </nav>
+      )}
+    </footer>
+  )
+}
+
+<style lang="scss">
+  .site-footer {
+    gap: 0.45rem 1.25rem;
+    padding: 0.9rem 1.25rem calc(0.9rem + env(safe-area-inset-bottom));
+    font-size: clamp(0.8rem, 0.72rem + 0.3vw, 0.9rem);
+    letter-spacing: 0.03em;
+    animation: fade-in 600ms ease-out var(--footer-reveal-delay) both;
+  }
+
+  .filings {
+    gap: 0.4rem 0.75rem;
+  }
+
+  .filing-link {
+    padding: 0.28rem 0.4rem;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-text-hover);
+      outline-offset: 3px;
+    }
+  }
+
+  /* Begin after the final profile row has finished appearing. */
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .site-footer { flex-direction: column; gap: 0.15rem; padding-inline: 0.75rem; }
+    .filings { gap: 0.1rem 0.4rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-footer {
+      animation: none;
+    }
+  }
+</style>

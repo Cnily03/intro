@@ -1,0 +1,91 @@
+---
+import { getImage } from 'astro:assets';
+import Footer from '@/components/Footer.astro';
+import Hero from '@/components/Hero.astro';
+import backgroundSource from '@/assets/background.png';
+import config from '@/config';
+import '@/styles/tailwind.css';
+import '@/styles/global.scss';
+
+const background = await getImage({ src: backgroundSource, width: 2560, format: 'webp', quality: 80 });
+---
+
+<!doctype html>
+<html lang="en" class="min-w-80 bg-canvas font-sans text-text antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11151b" />
+    {config.meta.description && <meta name="description" content={config.meta.description} />}
+
+    <!-- Font: MiSans -->
+    <link rel="preconnect" href="https://cdn-font.hyperos.mi.com" />
+    <link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin />
+    <link rel="stylesheet" href="https://cdn-font.hyperos.mi.com/font/css?family=MiSans:400,500:Chinese_Simplify,Latin&display=swap" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={background.src} as="image" type="image/webp" />
+    {config.meta.title && <title>{config.meta.title}</title>}
+  </head>
+  <body>
+    <div class="page-shell relative isolate flex flex-col" style={`--background-image: url('${background.src}')`}>
+      <main class="hero-area relative z-10 grid min-h-0 flex-1 place-items-center" aria-labelledby={config.profile.name ? 'hero-name' : undefined} aria-label={config.profile.name ? undefined : (config.meta.title ?? 'Personal homepage')}>
+        <Hero profile={config.profile} />
+      </main>
+
+      <Footer footer={config.footer} name={config.profile.name} />
+    </div>
+  </body>
+</html>
+
+<style lang="scss">
+  .page-shell {
+    --profile-reveal-duration: 760ms;
+    --avatar-reveal-delay: 950ms;
+    --name-reveal-delay: 1100ms;
+    --social-reveal-delay: 1250ms;
+    --footer-reveal-delay: calc(var(--social-reveal-delay) + var(--profile-reveal-duration) + 100ms);
+    min-height: 100vh;
+    min-height: 100svh;
+
+    /* The background settles before the profile rows enter. */
+    &::before {
+      position: fixed;
+      z-index: 0;
+      inset: -16px;
+      background: var(--background-image) center / cover no-repeat;
+      content: '';
+      animation: settle-background 900ms ease-out both;
+    }
+
+    &::after {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(8, 11, 17, 0.36), rgba(8, 11, 17, 0.54) 62%, rgba(8, 11, 17, 0.7));
+      content: '';
+      pointer-events: none;
+    }
+  }
+
+  .hero-area {
+    padding: clamp(2rem, 6vh, 4rem) 1.25rem 1rem;
+  }
+
+  @keyframes settle-background {
+    from { filter: blur(0) brightness(0.75); }
+    to { filter: blur(5px) brightness(0.49); }
+  }
+
+  @media (max-width: 600px) {
+    .hero-area { padding: 2.5rem 1rem 1rem; }
+  }
+
+  @media (max-height: 600px) {
+    .hero-area { padding-block: 1.25rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-shell::before { animation: none; filter: blur(5px) brightness(0.49); }
+  }
+</style>

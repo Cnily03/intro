@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Cascadia Mono';
+  src: url('../fonts/CascadiaMono.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  text-rendering: optimizeLegibility;
+}
+
+:where(code, pre, kbd, samp) {
+  font-family: var(--font-mono);
+}
+

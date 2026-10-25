@@ -1,0 +1,24 @@
+# Copy this file to `config.yaml` and replace the example values.
+# Leave optional values empty to hide their content.
+# Browser title and description.
+meta:
+  title: Your Name
+  description: Personal resume website.
+
+profile:
+  # Replace them with your own URLs.
+  avatar: https://github.com/Cnily03.png?size=256
+  name: Your Name
+  github: https://github.com/Cnily03
+  orcid:
+  bilibili:
+  discord:
+
+footer:
+  # Supports {{ year }} and {{ name }} placeholders at build time.
+  copyright: '© {{ year }} {{ name }}'
+
+  # Mainland China ICP and public security registration information.
+  # Filled values appear by default; build with HIDE_CN_BEIAN=1 to hide them.
+  icp:
+  police:
